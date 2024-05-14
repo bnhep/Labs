@@ -49,41 +49,41 @@ main PROC
 
 ;Calls the arraySort function to
 ;sort the array in ascending order
-    mov  edx,OFFSET sortArrayOutput
-    call WriteString
+    	mov  edx,OFFSET sortArrayOutput
+    	call WriteString
 	push OFFSET myArray
 	push count
-    call arraySort                  
+    	call arraySort                  
 
 
 ;call outputArray to output
 ;elements in the array
 	push OFFSET myArray
 	push count
-    call outputArray
+    	call outputArray
 
 ;call findGaps function to find the gap
 ;between elements of the array
 	call Crlf
-    mov  edx,OFFSET gapOutput
-    call WriteString
+    	mov  edx,OFFSET gapOutput
+    	call WriteString
 	push OFFSET myArray
-    dec count
+    	dec count
 	push count
-    call findGaps
+    	call findGaps
 
 	push OFFSET myArray
 	push count
-    call outputArray
+    	call outputArray
 
 ;Call the findSum function to find and output the sum
 ;find the sum of the gap elements and outputs the total sum
 	call Crlf
-    mov  edx,OFFSET sumOutput
-    call WriteString
+    	mov  edx,OFFSET sumOutput
+    	call WriteString
 	push OFFSET myArray
 	push count
-    call findSum
+    	call findSum
 
 
 INVOKE ExitProcess,0
@@ -96,28 +96,28 @@ main ENDP
 ;----------------------------------------------------
 validateCount PROC
 read:
-    mov  edx,OFFSET enterElements
-    call WriteString
-    call ReadInt
-    ;jumps to negative number if no overflow
-    ;if overflow loop to read again
-    jno  negativeNumber
-    mov  edx,OFFSET promptBad
-    call WriteString
+    	mov  edx,OFFSET enterElements
+    	call WriteString
+    	call ReadInt
+    	;jumps to negative number if no overflow
+    	;if overflow loop to read again
+    	jno  negativeNumber
+    	mov  edx,OFFSET promptBad
+    	call WriteString
 	call Crlf
-    jmp  read        ;go input again
+    	jmp  read        ;go input again
 negativeNumber:
-    ;Checks if number is not negative signed if so then jump to goodinput
-    ;if it is signed then loop back to read
-    jns goodInput
-    mov  edx,OFFSET promptNegative
-    call WriteString
+    	;Checks if number is not negative signed if so then jump to goodinput
+    	;if it is signed then loop back to read
+    	jns goodInput
+    	mov  edx,OFFSET promptNegative
+    	call WriteString
 	call Crlf
-    jmp  read       ;go input again        
+    	jmp  read       ;go input again        
 goodInput:
-    cmp eax, 100
-    jg read
-    mov count,eax  ;store good value
+    	cmp eax, 100
+    	jg read
+    	mov count,eax  ;store good value
 	ret
 validateCount ENDP
 
@@ -135,16 +135,16 @@ ArrayEntry PROC
 	mov ecx,[ebp+8]     ;move count value to ecx
 	cmp ecx, 0
 	je Loop2
-    mov ebx, 1          ;output element counter
+    	mov ebx, 1          ;output element counter
 Loop1:
-    mov  edx,OFFSET validateElements
-    call WriteString
-    mov eax, ebx
-    call WriteDec
-    mov  edx,OFFSET space
-    call WriteString
-    inc ebx
-    call validateEntry
+    	mov  edx,OFFSET validateElements
+    	call WriteString
+    	mov eax, ebx
+    	call WriteDec
+    	mov  edx,OFFSET space
+    	call WriteString
+    	inc ebx
+    	call validateEntry
 	mov [esi], eax      ;add the element to array
 	add esi, TYPE DWORD ;iterate through the array
 	loop Loop1
@@ -162,22 +162,22 @@ ArrayEntry ENDP
 ;----------------------------------------------------
 validateEntry PROC
 read:
-    call ReadInt
-    ;jumps to negative number if no overflow
-    ;if overflow loop to read again
-    jno  negativeNumber
+    	call ReadInt
+    	;jumps to negative number if no overflow
+    	;if overflow loop to read again
+    	jno  negativeNumber
 
-    mov  edx,OFFSET elementOutput
-    call WriteString
-    jmp  read        ;go input again
+    	mov  edx,OFFSET elementOutput
+    	call WriteString
+    	jmp  read        ;go input again
 
 negativeNumber:
-    ;Checks if number is not negative signed if so then jump to goodinput
-    ;if it is signed then loop back to read
-    jns goodInput
-    mov  edx,OFFSET promptElement
-    call WriteString
-    jmp  read       ;go input again
+    	;Checks if number is not negative signed if so then jump to goodinput
+    	;if it is signed then loop back to read
+    	jns goodInput
+    	mov  edx,OFFSET promptElement
+    	call WriteString
+    	jmp  read       ;go input again
         
 goodInput:
 	ret
@@ -229,16 +229,16 @@ findGaps PROC
 	cmp ecx, 0
 	je Loop2
 Loop1:    
-    mov eax, [esi+4]      ;subtract the next element
-    mov ebx, [esi]        ;with the current element
-    sub eax, ebx
+    	mov eax, [esi+4]      ;subtract the next element
+    	mov ebx, [esi]        ;with the current element
+    	sub eax, ebx
 	mov [esi], eax        ;store new value in array
 	add esi, TYPE DWORD
 	loop Loop1
 Loop2:
 	popad
 	pop ebp
-    ret 8
+    	ret 8
 findGaps ENDP
 
 ;----------------------------------------------------
@@ -255,19 +255,19 @@ outputArray PROC
 Loop1:
 	mov eax, [esi]                  ;move element
 	call WriteDec
-    mov  edx,OFFSET spaceElement    ;output element value
-    call WriteString
+    	mov  edx,OFFSET spaceElement    ;output element value
+    	call WriteString
 	add esi, TYPE DWORD             ;iterate through array
-    cmp ecx, 2                      ;once it hits last element
-    je Loop2                        ;break loop
+    	cmp ecx, 2                      ;once it hits last element
+    	je Loop2                        ;break loop
 	loop Loop1
 Loop2: 
-    mov eax, [esi]                  ;move last element
-    add esi, TYPE DWORD             ;output last element
+    	mov eax, [esi]                  ;move last element
+    	add esi, TYPE DWORD             ;output last element
 	call WriteDec
-    popad
-    pop ebp
-    ret 8
+    	popad
+    	pop ebp
+    	ret 8
 outputArray ENDP
 
 ;----------------------------------------------------
@@ -278,20 +278,20 @@ findSum PROC
 	push ebp
 	mov ebp, esp
 	pushad
-    mov eax, 0
+    	mov eax, 0
 	mov esi,[ebp+12]        ;pointer to array
 	mov ecx,[ebp+8]         ;count
 	cmp ecx, 0
 	je Loop2
 Loop1:    
-    add eax, [esi]          ;adds everything in array to
+    	add eax, [esi]          ;adds everything in array to
 	add esi, TYPE DWORD     ;to first element
 	loop Loop1
 Loop2:
-    call WriteDec           ;outputs the eax which is the total
+    	call WriteDec           ;outputs the eax which is the total
 	popad
 	pop ebp
-    ret 8
+    	ret 8
 findSum ENDP
 
 END main
